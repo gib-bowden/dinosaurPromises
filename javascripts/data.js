@@ -94,18 +94,31 @@ const thirdDinoJSON = () => {
 //     }); 
 //  };
 
+//Promise good way
+// const dinoGetter = () => {
+//     firstDinoJSON().then((results) => {
+//         pushDinos(results);
+//         return secondDinoJSON(); 
+//     }).then((results) => {
+//         pushDinos(results);
+//         return thirdDinoJSON();
+//     }).then((results) => {
+//         pushDinos(results);
+//         makeDinos(dinosaurs);
+//     }); 
+// };
+
 
 const dinoGetter = () => {
-    firstDinoJSON().then((results) => {
-        pushDinos(results);
-        return secondDinoJSON(); 
-    }).then((results) => {
-        pushDinos(results);
-        return thirdDinoJSON();
-    }).then((results) => {
-        pushDinos(results);
-        makeDinos(dinosaurs);
-    }); 
+    Promise.all([firstDinoJSON(), secondDinoJSON(), thirdDinoJSON()])
+        .then((results) => {
+             results.forEach((arr) => {
+                pushDinos(arr);
+            });
+            makeDinos(dinosaurs);
+        }).catch((error) => {
+            console.log("error", error); 
+        });
 };
 
 const makeDinos = (arr) => {
