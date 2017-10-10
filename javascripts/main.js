@@ -1,5 +1,9 @@
 "use strict";
 
-const dom = require('./dom');
+const data = require('./data');
 
-dom.createDomString({name: "T-rex"}); 
+$(document).ready(function() {
+   data.initializer(); 
+});
+
+
