@@ -4,6 +4,7 @@
 const dom = require('./dom'); 
 
 let dinosaurs = [];
+let cats = []; 
 
 const initializer = () => {
     dinoGetter();    
@@ -79,6 +80,15 @@ const thirdDinoJSON = () => {
     });
 };
 
+const catsJSON = () => {
+    return new Promise ((resolve, reject) => {
+        $.ajax('./database/cats.json').done((data) => {
+            resolve(data.cats); 
+        }).fail((error1) => {
+            reject(error1); 
+        });
+    });
+};
 // const dinoGetter = () => {
 //     firstDinoJSON().then((results) => {
 //         pushDinos(results); 
@@ -113,13 +123,16 @@ const thirdDinoJSON = () => {
 const dinoGetter = () => {
     Promise.all([firstDinoJSON(), secondDinoJSON(), thirdDinoJSON()])
         .then((results) => {
-             results.forEach((arr) => {
-                pushDinos(arr);
+            catsJSON().then((cats) => {
+             results.forEach((dinos) => {
+                pushDinos(dinos, cats);
+                console.log(dinosaurs);
             });
             makeDinos(dinosaurs);
         }).catch((error) => {
             console.log("error", error); 
         });
+    });
 };
 
 const makeDinos = (arr) => {
@@ -129,11 +142,24 @@ const makeDinos = (arr) => {
 };
 
 
-const pushDinos = (arr) => {
-    arr.forEach((dino) => {
+const pushDinos = (dinoArr, catsArr) => {
+    dinoArr.forEach((dino) => {
+        dino.snacks = []; 
+        dino.catIds.forEach((id) => {
+            catsArr.forEach((cat) => {
+                if (cat.id === id) {
+                    dino.snacks.push(cat); 
+                }
+            });
+        });
         dinosaurs.push(dino);
     });
 }; 
+
+const setCats = (arr) => {
+    cats = arr;
+};
+
 
 module.exports= {
     initializer,
