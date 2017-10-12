@@ -1,12 +1,17 @@
 "use strict";
 
+let dinoDiv = $('#dinosaur'); 
+
 const createDomString = (obj) => {
-    let dinoName = obj.name;
-    printToDom(dinoName); 
+    let dinoString = "";
+    dinoString += `<div>
+                    <h1>${obj.type}</h1>
+                   <div>`;
+    printToDom(dinoString); 
 };
 
 const printToDom = (str) => {
-    $('#dinosaur').append(str);
+    dinoDiv.append(str);
 };
 
 module.exports = {
