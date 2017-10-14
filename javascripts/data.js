@@ -125,7 +125,6 @@ const dinoGetter = () => {
             catsJSON().then((cats) => {
              results.forEach((dinos) => {
                 pushDinos(dinos, cats);
-                console.log(dinosaurs);
             });
             makeDinos(dinosaurs);
         }).catch((error) => {
@@ -137,6 +136,7 @@ const dinoGetter = () => {
 const makeDinos = (arr) => {
     arr.forEach((dino) => {
         dom.createDomString(dino); 
+        console.log(dino); 
     });
 };
 
